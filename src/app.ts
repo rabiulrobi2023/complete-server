@@ -5,9 +5,8 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/', (req: Request, res: Response) => {
-  const a = 50
 
-  res.send(a)
+  res.send("Serveer is running")
 })
 
 export default app
