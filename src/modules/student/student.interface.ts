@@ -1,18 +1,18 @@
-import { Schema, model, connect } from 'mongoose';
 
-export type Guardian = {
-  fatherName: string;
-  fatherOccupation: string;
-  fatherContactNo: string;
-  motherName: string;
-  motherOccupation: string;
-  motherContactNo: string;
-}
 
 export type StudentName = {
     firstName: string;
     midName: string;
     lastName: string;
+  }
+
+  export type Guardian = {
+    fatherName: string;
+    fatherOccupation: string;
+    fatherContactNo: string;
+    motherName: string;
+    motherOccupation: string;
+    motherContactNo: string;
   }
 export type LocalGuardian= {
     localGuardianName: string;
@@ -33,8 +33,8 @@ export type Student = {
   bloodGroup: 'A+' | 'A-' | 'B+' | 'B-' | 'AB+' | 'AB-' | 'O+' | 'O-';
   presentAddress: string;
   permanentAddress: string;
-  guardianAddress: Guardian;
+  guardianInfo: Guardian;
   localGuardian: LocalGuardian;
   profileImg?:string;
-  isActive: "active"|"inActive";
+  isActive: "active"|"block";
 }
