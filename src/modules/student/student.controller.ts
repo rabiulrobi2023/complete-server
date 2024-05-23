@@ -23,7 +23,7 @@ const createStudent = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Falil Create Student',
+      message: error.message || 'Falil Create Student',
       data: error,
     })
   }
@@ -56,8 +56,24 @@ const getStudentById = async (req: Request, res: Response) => {
   }
 }
 
+const deleteStuedentById = async(req:Request, res:Response)=>{
+  try{
+    const studentId = req.params.id;
+    const result = await studentService.deleteStudentById(studentId)
+    res.status(200).json({
+      success: true,
+      message:"Student Delete Successfull",
+      data: result
+    })
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
 export const StudentController = {
   createStudent,
   getStudents,
   getStudentById,
+  deleteStuedentById
 }
