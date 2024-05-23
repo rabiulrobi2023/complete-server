@@ -42,43 +42,50 @@ const studentSchema = new Schema<
   TStudent,
   StudentCustomModel,
   StudentCustomMethod
->({
-  id: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  name: studentNameSchema,
-  gender: { type: String, required: true },
-  dateOfBirth: { type: String, required: true },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    unique: true,
-    trim: true,
-  },
-  contactNo: { type: String, required: true },
-  emergencyContactNo: { type: String, required: true },
-  bloodGroup: {
-    type: String,
-    enum: {
-      values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
-      message: `{VALUE} is not supported`,
+>(
+  {
+    id: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    name: studentNameSchema,
+    gender: { type: String, required: true },
+    dateOfBirth: { type: String, required: true },
+    email: {
+      type: String,
+      required: [true, 'Email is required'],
+      unique: true,
+      trim: true,
     },
-    required: [true, 'Blood Group is required'],
+    contactNo: { type: String, required: true },
+    emergencyContactNo: { type: String, required: true },
+    bloodGroup: {
+      type: String,
+      enum: {
+        values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+        message: `{VALUE} is not supported`,
+      },
+      required: [true, 'Blood Group is required'],
+    },
+    presentAddress: { type: String, required: true },
+    permanentAddress: { type: String, required: true },
+    guardianInfo: guardianInfoSchema,
+    localGuardian: localGuardianSchema,
+    profileImg: { type: String },
+    isActive: {
+      type: String,
+      enum: ['active', 'block'],
+      default: 'active',
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
-  presentAddress: { type: String, required: true },
-  permanentAddress: { type: String, required: true },
-  guardianInfo: guardianInfoSchema,
-  localGuardian: localGuardianSchema,
-  profileImg: { type: String },
-  isActive: {
-    type: String,
-    enum: ['active', 'block'],
-    default: 'active',
+  {
+    toJSON: {
+      virtuals: true,
+    },
   },
-  isDeleted: {
-    type: Boolean,
-    default: false,
-  },
-})
+)
 
 //=====================Meddleware====================
 studentSchema.pre('save', async function (next) {
@@ -95,13 +102,17 @@ studentSchema.post('save', async function (doc, next) {
   next()
 })
 
-studentNameSchema.pre('find', function (next) {
+studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } })
   next()
 })
-studentNameSchema.pre('findOne', function (next) {
+studentSchema.pre('findOne', function (next) {
   this.findOne({ isDeleted: { $ne: true } })
   next()
+})
+
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.midName} ${this.name.lastName}`
 })
 
 //=========================Model===========================
