@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+
 import { Schema, model } from 'mongoose'
 import {
   StudentCustomMethod,
@@ -8,9 +8,10 @@ import {
   TStudent,
   TStudentName,
 } from './student.interface'
-import config from '../../config'
+
 
 const studentNameSchema = new Schema<TStudentName>({
+  
   firstName: {
     type: String,
     required: true,
@@ -44,8 +45,14 @@ const studentSchema = new Schema<
   StudentCustomMethod
 >(
   {
-    id: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    id: { type: String, required:true, unique: true },
+  
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, "User id is required"],
+      unique: true,
+      ref: "User"
+    },
     name: studentNameSchema,
     gender: { type: String, required: true },
     dateOfBirth: { type: String, required: true },
@@ -70,11 +77,6 @@ const studentSchema = new Schema<
     guardianInfo: guardianInfoSchema,
     localGuardian: localGuardianSchema,
     profileImg: { type: String },
-    isActive: {
-      type: String,
-      enum: ['active', 'block'],
-      default: 'active',
-    },
     isDeleted: {
       type: Boolean,
       default: false,
@@ -88,19 +90,19 @@ const studentSchema = new Schema<
 )
 
 //=====================Meddleware====================
-studentSchema.pre('save', async function (next) {
-  // eslint-disable-next-line @typescript-eslint/no-this-alias
-  const user = this
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds),
-  )
-  next()
-})
-studentSchema.post('save', async function (doc, next) {
-  doc.password = ''
-  next()
-})
+// studentSchema.pre('save', async function (next) {
+//   // eslint-disable-next-line @typescript-eslint/no-this-alias
+//   const user = this
+//   user.password = await bcrypt.hash(
+//     user.password,
+//     Number(config.bcrypt_salt_rounds),
+//   )
+//   next()
+// })
+// studentSchema.post('save', async function (doc, next) {
+//   doc.password = ''
+//   next()
+// })
 
 studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } })

@@ -1,12 +1,13 @@
 import express, { Application } from 'express'
 import cors from 'cors'
-import { createStudent, deleteStudentById, getStudents } from './modules/student/student.route'
-const app: Application = express()
-app.use(express.json())
-app.use(cors())
+import { StudentRouter,} from './modules/student/student.route'
+import { UserRouter } from './modules/user/user.route'
 
-app.use('/api/v1/student', createStudent)
-app.use('/api/v1/student', getStudents)
-app.use('/api/v1/student', deleteStudentById)
+const app: Application = express();
+app.use(express.json());
+app.use(cors());
 
-export default app
+app.use('/api/v1/student', StudentRouter);
+app.use('/api/v1/user', UserRouter);
+
+export default app;

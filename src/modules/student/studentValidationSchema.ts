@@ -51,12 +51,11 @@ const localGuardianSchema = Joi.object({
 //==================================Main JoiValidation Schema=================
 
 const JoistudentValidationSchema = Joi.object({
-    id: Joi.string().trim().required().messages({
+    id: Joi.string().messages({
       'any.required': 'ID is required'
     }),
-    password:Joi.string().messages({
-      'any.required': 'Valid password is required'
-    }),
+  
+    
     name: studentNameSchema.required().messages({
       'any.required': 'Student name is required'
     }),
@@ -94,9 +93,6 @@ const JoistudentValidationSchema = Joi.object({
       'any.required': 'Local guardian information is required'
     }),
     profileImg: Joi.string().uri().optional(),
-    isActive: Joi.string().valid('active', 'block').default('active').messages({
-      'any.only': 'Status must be either active or block'
-    }),
     isDeleted:Joi.boolean().default(false)
 
 });

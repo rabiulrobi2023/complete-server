@@ -9,3 +9,5 @@ export const createStudent = router.post("/create-student",StudentController.cre
 export const getStudents = router.get("/",StudentController.getStudents)
 export const getStudentById = router.get("/:id",StudentController.getStudentById)
 export const deleteStudentById = router.patch("/delete-student/:id",StudentController.deleteStuedentById)
+
+export const  StudentRouter = router;

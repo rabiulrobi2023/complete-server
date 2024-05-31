@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express'
 import studentService from './studentService'
 import JoistudentValidationSchema from './studentValidationSchema'
@@ -20,7 +21,7 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student Created Successfully',
       data: result,
     })
-  } catch (error) {
+  } catch (error:any) {
     res.status(500).json({
       success: false,
       message: error.message || 'Falil Create Student',
@@ -56,17 +57,16 @@ const getStudentById = async (req: Request, res: Response) => {
   }
 }
 
-const deleteStuedentById = async(req:Request, res:Response)=>{
-  try{
-    const studentId = req.params.id;
+const deleteStuedentById = async (req: Request, res: Response) => {
+  try {
+    const studentId = req.params.id
     const result = await studentService.deleteStudentById(studentId)
     res.status(200).json({
       success: true,
-      message:"Student Delete Successfull",
-      data: result
+      message: 'Student Delete Successfull',
+      data: result,
     })
-  }
-  catch(error){
+  } catch (error) {
     console.log(error)
   }
 }
@@ -75,5 +75,5 @@ export const StudentController = {
   createStudent,
   getStudents,
   getStudentById,
-  deleteStuedentById
+  deleteStuedentById,
 }
