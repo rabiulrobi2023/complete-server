@@ -2,6 +2,8 @@
 import { NextFunction, Request, Response } from 'express'
 import studentService from './studentService'
 import JoistudentValidationSchema from './studentValidationSchema'
+import sendResponse from '../../utilities/sendResponce'
+import httpStatus from 'http-status'
 
 const createStudent = async (
   req: Request,
@@ -20,11 +22,12 @@ const createStudent = async (
       })
     }
     const result = await studentService.createStudentIntoDB(value)
-    res.status(200).json({
-      success: true,
-      message: 'Student Created Successfully',
-      data: result,
-    })
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success:true,
+      messaage: "Student created successfully",
+      data: result
+    } )
   } catch (err) {
     next(err)
   }
@@ -33,11 +36,12 @@ const createStudent = async (
 const getStudents = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await studentService.getStudents()
-    res.status(200).json({
-      success: true,
-      message: 'Student data find successfully',
-      data: result,
-    })
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success:true,
+      messaage: "Student found successfully",
+      data: result
+    } )
   } catch (err) {
     next()
   }
@@ -47,11 +51,12 @@ const getStudentById = async (req: Request, res: Response, next: NextFunction) =
   try {
     const studentId = req.params.id
     const result = await studentService.getStudentById(studentId)
-    res.status(200).json({
-      success: true,
-      message: `The student which id is ${studentId}, get found`,
-      data: result,
-    })
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success:true,
+      messaage: "Student find successfully",
+      data: result
+    } )
   } catch (err) {
     next(err)
   }
@@ -61,11 +66,12 @@ const deleteStuedentById = async (req: Request, res: Response, next: NextFunctio
   try {
     const studentId = req.params.id
     const result = await studentService.deleteStudentById(studentId)
-    res.status(200).json({
-      success: true,
-      message: 'Student Delete Successfull',
-      data: result,
-    })
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success:true,
+      messaage: "Student deleted successfully",
+      data: result
+    } )
   } catch (err) {
     next(err)
   }
