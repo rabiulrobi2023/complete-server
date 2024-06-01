@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import studentService from './studentService'
 import JoistudentValidationSchema from './studentValidationSchema'
 
-const createStudent = async (req: Request, res: Response) => {
+const createStudent = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { student: studentData } = req.body
 
@@ -21,16 +25,12 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student Created Successfully',
       data: result,
     })
-  } catch (error:any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Falil Create Student',
-      data: error,
-    })
+  } catch (err) {
+    next(err)
   }
 }
 
-const getStudents = async (req: Request, res: Response) => {
+const getStudents = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await studentService.getStudents()
     res.status(200).json({
@@ -38,12 +38,12 @@ const getStudents = async (req: Request, res: Response) => {
       message: 'Student data find successfully',
       data: result,
     })
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    next()
   }
 }
 
-const getStudentById = async (req: Request, res: Response) => {
+const getStudentById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const studentId = req.params.id
     const result = await studentService.getStudentById(studentId)
@@ -52,12 +52,12 @@ const getStudentById = async (req: Request, res: Response) => {
       message: `The student which id is ${studentId}, get found`,
       data: result,
     })
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    next(err)
   }
 }
 
-const deleteStuedentById = async (req: Request, res: Response) => {
+const deleteStuedentById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const studentId = req.params.id
     const result = await studentService.deleteStudentById(studentId)
@@ -66,8 +66,8 @@ const deleteStuedentById = async (req: Request, res: Response) => {
       message: 'Student Delete Successfull',
       data: result,
     })
-  } catch (error) {
-    console.log(error)
+  } catch (err) {
+    next(err)
   }
 }
 
