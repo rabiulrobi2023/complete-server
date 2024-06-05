@@ -1,30 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import studentService from './studentService'
-import JoistudentValidationSchema from './studentValidationSchema'
 import sendResponse from '../../utilities/sendResponce'
 import httpStatus from 'http-status'
 import catchAsync from '../../utilities/catchAsync'
 
-//Used catchAsync Higher Order Function
-const createStudent = catchAsync(async (req, res) => {
-  const { student: studentData } = req.body
 
-  const { error, value } = JoistudentValidationSchema.validate(studentData)
-  if (error) {
-    res.status(500).json({
-      success: false,
-      message: 'Falil Create Student',
-      error: error.details,
-    })
-  }
-  const result = await studentService.createStudentIntoDB(value)
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    messaage: 'Student created successfully',
-    data: result,
-  })
-})
+//Used catchAsync Higher Order Function
+// const createStudent = catchAsync(async (req, res) => {
+//   const { student: studentData } = req.body
+
+//   const { error, value } = createStudentValidatonSchema.parseAsync(studentData)
+//   if (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: 'Falil Create Student',
+//       error: error.details,
+//     })
+//   }
+//   const result = await studentService.createStudentIntoDB(value)
+//   sendResponse(res, {
+//     statusCode: httpStatus.OK,
+//     success: true,
+//     messaage: 'Student created successfully',
+//     data: result,
+//   })
+// })
 
 //Used catchAsync Higher Order Function
 const getStudents = catchAsync(async (req, res) => {
@@ -64,7 +64,6 @@ const deleteStuedentById = catchAsync(
 
 
 export const StudentController = {
-  createStudent,
   getStudents,
   getStudentById,
   deleteStuedentById,

@@ -8,7 +8,7 @@ const createUserAndStudentInDB = async (
   password: string,
   sutdentData: TStudent,
 ) => {
-  console.log(sutdentData)
+
   const userData: Partial<TUser> = {}
   userData.password = password || (config.DEFAULT_PASS as string)
   userData.role = 'student'
@@ -19,7 +19,6 @@ const createUserAndStudentInDB = async (
   if (Object.keys(newUser).length) {
     sutdentData.id = newUser.id
     sutdentData.user = newUser._id
-    sutdentData.password = newUser.password
     const newStudent = await StudentModel.create(sutdentData)
     return newStudent
   }
