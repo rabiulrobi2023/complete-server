@@ -23,3 +23,7 @@ export type TSemester = {
   startMonth: TMonths
   endMonth: TMonths
 }
+
+export type TSemesterNameCodeMapper = {
+  [key: string] :string
+}

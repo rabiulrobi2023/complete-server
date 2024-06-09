@@ -10,6 +10,7 @@ import {
 } from './student.interface'
 
 
+
 const studentNameSchema = new Schema<TStudentName>({
   
   firstName: {
@@ -77,6 +78,11 @@ const studentSchema = new Schema<
     guardianInfo: guardianInfoSchema,
     localGuardian: localGuardianSchema,
     profileImg: { type: String },
+    admissionSemester:{
+      type: Schema.Types.ObjectId,
+      ref: 'SemesterModel'
+    },
+
     isDeleted: {
       type: Boolean,
       default: false,

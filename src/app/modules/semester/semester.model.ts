@@ -27,7 +27,7 @@ const semesterModelSchema = new Schema<TSemester>({
     enum: Months,
     required: true
  }
-})
+},{timestamps: true})
 
 
 semesterModelSchema.pre('save', async function(next){
